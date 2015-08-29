@@ -9,7 +9,9 @@ get '/about' do
 	erb :about
 end
 
-get '/check' do
+post '/check' do
+	@email = params[:email]
+	@message = params[:message]
 	erb :check
 end
 
