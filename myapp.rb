@@ -1,5 +1,9 @@
+require 'rubygems'
+require 'bundler'
+Bundler.require
 require 'sinatra'
 require 'sinatra/reloader'
+require 'rest_client'
 
 get '/' do
 	erb :index
@@ -15,6 +19,17 @@ post '/check' do
 	erb :check
 end
 
-get '/thank' do
-	erb :thank
+post '/send-mail' do
+	@email = params[:email]
+	@message = params[:message] 
+	send_simple_message
+ 	erb :thank
+end
+def send_simple_message
+	RestClient.post "https://api:key-ほにゃらら"\
+    "@api.mailgun.net/v3/sandboxほにゃらら",
+    :from => "Excited User <ほにゃらら>",
+   	:to => "miki<ほにゃらら@ほにゃ>",
+	:subject => "お問い合わせがありました",
+	:text => "こんにちは"
 end
