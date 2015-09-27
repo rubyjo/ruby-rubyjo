@@ -6,6 +6,14 @@ require 'sinatra/reloader'
 require 'rest_client'
 require 'dotenv'
 Dotenv.load
+require 'yaml'
+require 'active_record'
+
+ActiveRecord::Base.configurations = YAML.load_file('database.yml')
+ActiveRecord::Base.establish_connection(:development)
+
+class Sample < ActiveRecord::Base
+end
 
 get '/' do
 	erb :index
