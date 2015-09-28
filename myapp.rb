@@ -9,10 +9,9 @@ Dotenv.load
 require 'yaml'
 require 'active_record'
 
-ActiveRecord::Base.configurations = YAML.load_file('database.yml')
-ActiveRecord::Base.establish_connection(:development)
+ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
 
-class Sample < ActiveRecord::Base
+class Mail < ActiveRecord::Base
 end
 
 get '/' do
@@ -32,6 +31,10 @@ end
 post '/send-mail' do
 	@email = params[:email]
 	@message = params[:message] 
+	mail = Mail.new
+	mail.email=@email
+	mail.message=@message
+	mail.save
 	send_simple_message(params[:email],params[:message])
  	erb :thank
 end
