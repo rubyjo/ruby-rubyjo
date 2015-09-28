@@ -15,6 +15,7 @@ class Mail < ActiveRecord::Base
 end
 
 get '/' do
+	@count = Mail.count
 	erb :index
 end
 
